@@ -1,5 +1,9 @@
 package com.example.novartodemo;
 
+// Product Class
+// The data model containing product information
+
+
 import org.springframework.data.annotation.Id;
 
 import java.util.Arrays;
