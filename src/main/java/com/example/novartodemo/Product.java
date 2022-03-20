@@ -12,7 +12,7 @@ public class Product {
     private long uin;
     private String name = "";
     private String priceDescription = "";
-    private float price;
+    private double price;
 
     // Category fields
     private long categoryId;
@@ -36,11 +36,11 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -73,4 +73,7 @@ public class Product {
         refs.remove(reference);
         setReferencesFromSet(refs);
     }
+
+    // The rest of the field getters and setters
+    // ...
 }

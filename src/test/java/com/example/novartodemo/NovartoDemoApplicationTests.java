@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NovartoDemoApplicationTests {
 
     // Test operations on the comma-delimited reference String for each product
+    // The list should contain ids of products, the test uses product names for clarity
     @Test
     public void testReferencesOperations() {
         // Create example references list
@@ -25,7 +26,7 @@ class NovartoDemoApplicationTests {
         p.removeReference("Mouse");
         System.out.println("Reference list contains: " + p.getReferences());
 
-        Assertions.assertEquals("Monitor,Keyboard,Trackpad",p.getReferences());
+        Assertions.assertEquals("Monitor,Keyboard,Trackpad", p.getReferences());
     }
 
     @Test
