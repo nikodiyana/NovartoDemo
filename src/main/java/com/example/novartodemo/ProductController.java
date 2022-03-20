@@ -32,8 +32,8 @@ public class ProductController {
         // Update the rest of the product fields
         // ...
 
-        // Update the database
-        // ..
+        // Update the database, not implemented yet
+        // database.save(p)
     }
 
     @DeleteMapping("/{id}")
