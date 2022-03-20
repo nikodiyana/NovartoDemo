@@ -20,17 +20,20 @@ public class ProductController {
     @GetMapping(path = "/{id}")
     public Product getProductById(@PathVariable long id) {
         //return database.findById(id);  // Not implemented yet
-        return null;
+        return new Product();
     }
 
     @PutMapping("/{id}")
-    public void replaceProduct(Product newProduct, @PathVariable long id) {
+    public void updateProduct(@PathVariable long id, Product updatedProduct) {
         Product p = getProductById(id);
-        p.setName(newProduct.getName());
-        p.setPrice(newProduct.getPrice());
+        p.setName(updatedProduct.getName());
+        p.setPrice(updatedProduct.getPrice());
 
-        // Update the rest of the fields
+        // Update the rest of the product fields
         // ...
+
+        // Update the database
+        // ..
     }
 
     @DeleteMapping("/{id}")
