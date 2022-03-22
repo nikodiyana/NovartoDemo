@@ -1,43 +1,51 @@
 package com.example.novartodemo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+
 
 @RestController
 @RequestMapping(path="/product")
 public class ProductController {
+    @Autowired
+    private ProductDatabase database;
 
     @PostMapping(path="/add")
-    public String addProduct(@RequestParam String name, @RequestParam float price) {
+    public Product addProduct(@RequestParam String name, @RequestParam float price) {
         Product p = new Product();
         p.setName(name);
         p.setPrice(price);
 
-        //database.save(p);    // Not implemented yet - Add the new product to database repository
-
-        return "Product Added Successfully";
+        return database.save(p);    // Add the new product to database repository
     }
 
     @GetMapping(path = "/{id}")
-    public Product getProductById(@PathVariable long id) {
-        //return database.findById(id);  // Not implemented yet
-        return new Product();
+    public Optional<Product> getProductById(@PathVariable int id) {
+        return database.findById(id);
+    }
+
+    @GetMapping("/all")
+    List<Product> all() {
+        return (List<Product>) database.findAll();
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable long id, Product updatedProduct) {
-        Product p = getProductById(id);
-        p.setName(updatedProduct.getName());
-        p.setPrice(updatedProduct.getPrice());
-
-        // Update the rest of the product fields
-        // ...
-
-        // Update the database, not implemented yet
-        // database.save(p)
+    public void updateProduct(@PathVariable int id, Product newProduct) {
+        Optional<Product> p = getProductById(id);
+        if (p.isPresent()) {
+            p.get().updateWith(newProduct);
+            database.save(p.get());
+        } else {
+            // Handle product not found case here
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable long id) {
-        //database.deleteById(id);  // Not implemented yet
+    public void deleteProduct(@PathVariable int id) {
+        database.deleteById(id);
     }
 }

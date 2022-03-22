@@ -4,7 +4,6 @@ package com.example.novartodemo;
 // by Dian Zagorchinov, https://github.com/nikodiyana
 
 
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

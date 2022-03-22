@@ -4,32 +4,36 @@ package com.example.novartodemo;
 // The data model containing product information
 
 
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+
+@Entity
 public class Product {
     // Product fields
-    private @Id long id;
+    private @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    int id;
     private long uin;
     private String name = "";
     private String priceDescription = "";
     private double price;
 
     // Category fields
-    private long categoryId;
+    private int categoryId;
     private long categoryUin;
     private String categoryName = "";
-    private String references = "";   // Comma-delimited string containing IDs of referenced products
+    private String referenceIds = "";   // Comma-delimited string containing IDs of referenced products
 
-    public long getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -48,36 +52,51 @@ public class Product {
         this.price = price;
     }
 
-    public String getReferences() {
-        return references;
+    public String getReferenceIds() {
+        return referenceIds;
     }
 
-    public void setReferences(String references) {
-        this.references = references;
+    public void setReferenceIds(String referenceIds) {
+        this.referenceIds = referenceIds;
     }
 
-    // Returns a Java Set from comma-delimited string of reference ids
-    private Set<String> getReferencesAsSet() {
-        return Arrays.stream(references.split(",")).collect(Collectors.toSet());
+    // Returns a String set from comma-delimited string of reference ids
+    private Set<String> getReferenceIdsAsSet() {
+        return Arrays.stream(referenceIds.split(",")).collect(Collectors.toSet());
     }
 
-    // Creates comma-delimited string of reference ids from Java Set
-    private void setReferencesFromSet(Set<String> refs) {
-        setReferences(String.join(",", refs));
+    // Creates comma-delimited string of reference ids from Set
+    private void setReferenceIdsFromSet(Set<String> refs) {
+        setReferenceIds(String.join(",", refs));
     }
 
-    public void addReference(String reference) {
-        Set<String> refs = getReferencesAsSet();
-        refs.add(reference);
-        setReferencesFromSet(refs);
+    public void addReferenceId(int id) {
+        if (referenceIds.length() == 0) {
+            referenceIds = String.valueOf(id);  // Quick add if referenceIds is empty
+        } else {
+            Set<String> refs = getReferenceIdsAsSet();
+            refs.add(String.valueOf(id));
+            setReferenceIdsFromSet(refs);
+        }
     }
 
-    public void removeReference(String reference) {
-        Set<String> refs = getReferencesAsSet();
-        refs.remove(reference);
-        setReferencesFromSet(refs);
+    public void removeReferenceId(int id) {
+        Set<String> refs = getReferenceIdsAsSet();
+        refs.remove(String.valueOf(id));
+        setReferenceIdsFromSet(refs);
     }
 
-    // The rest of the field getters and setters
+    public void updateWith(Product newProduct) {
+        this.name = newProduct.name;
+        this.uin = newProduct.uin;
+        this.price = newProduct.price;
+        this.priceDescription = newProduct.priceDescription;
+        this.categoryId = newProduct.categoryId;
+        this.categoryUin = newProduct.categoryUin;
+        this.categoryName =newProduct.categoryName;
+        this.referenceIds = newProduct.referenceIds;
+    }
+
+    // The rest of the getters and setters
     // ...
 }
